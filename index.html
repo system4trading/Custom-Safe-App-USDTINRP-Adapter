@@ -1,0 +1,2355 @@
+	
+	
+	<!DOCTYPE html>
+	
+	
+	
+	<html
+	lang="en">
+	
+	
+	
+	<head>
+	
+	
+	
+	<meta
+	charset="utf-8"/><meta
+	content="width=device-width,initial-scale=1"
+	name="viewport"/>
+	
+	
+	
+	<title>Fixed
+	Rate USDT / INRP Adapter</title>
+	
+	
+	
+	<style>
+	
+	
+	
+	body{font-family:Arial,sans-serif;max-width:1120px;margin:auto;padding:20px;background:#f5f6f8;color:#18202a}
+	
+	
+	
+	.card{background:#fff;border:1px
+	
+	
+	
+	solid
+	#ddd;border-radius:10px;padding:18px;margin:14px 0}
+	
+	
+	
+	h1,h2,h3{margin-top:0}.row{display:flex;gap:10px;flex-wrap:wrap}.stack{display:flex;flex-direction:column;gap:12px}.stack>button,.stack>label{margin:0}.radio-group{display:flex;flex-direction:column;gap:8px}.field{flex:1;min-width:190px}
+	
+	
+	
+	input,select,button{width:100%;box-sizing:border-box;padding:10px;margin:5px
+	
+	
+	
+	0;border:1px solid
+	#bbb;border-radius:6px}
+	
+	
+	
+	button{cursor:pointer;font-weight:600}.primary{background:#222;color:#fff}.danger{background:#7a1f1f;color:#fff}
+	
+	
+	
+	.small{font-size:13px;color:#59636e}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+	
+	
+	
+	.stat{border:1px solid
+	
+	
+	
+	#ddd;border-radius:8px;padding:12px}.stat
+	
+	
+	
+	b{display:block;font-size:17px;margin-top:4px;word-break:break-word}
+	
+	
+	
+	.hidden{display:none!important}.ok{color:#126b2e}.warn{color:#8a5a00}.err{color:#9b1c1c}
+	
+	
+	
+	hr{border:0;border-top:1px
+	
+	
+	
+	solid #eee;margin:16px
+	0}code{background:#f0f1f2;padding:2px
+	
+	
+	
+	4px;border-radius:4px}
+	
+	
+	
+	details
+	summary{cursor:pointer;font-weight:700}label{display:block;margin-top:5px}.notice{padding:10px;border-radius:7px;background:#f1f2f4;margin:8px
+	
+	
+	
+	0}
+	
+	
+	
+	</style>
+	
+	
+	
+	<style id="v17-ui-spacing">
+	
+	
+	
+	#publicUI
+	
+	
+	
+	.approval-mode-stack,
+	
+	
+	
+	#publicUI
+	.swap-action-stack,
+	
+	
+	
+	#publicUI
+	
+	
+	
+	.admin-action-stack,
+	
+	
+	
+	#publicUI
+	
+	
+	
+	.developer-action-stack
+	{
+	
+	
+	
+	display:flex
+	
+	
+	
+	!important;
+	
+	
+	
+	flex-direction:column
+	
+	
+	
+	!important;
+	
+	
+	
+	align-items:stretch
+	
+	
+	
+	!important;
+	
+	
+	
+	gap:12px !important;
+	
+	
+	
+	width:100% !important;
+	
+	
+	
+	}
+	
+	
+	
+	#publicUI
+	.approval-mode-stack
+	
+	
+	
+	label {
+	
+	
+	
+	display:block
+	
+	
+	
+	!important;
+	
+	
+	
+	margin:0 !important;
+	
+	
+	
+	padding:2px 0
+	
+	
+	
+	!important;
+	
+	
+	
+	}
+	
+	
+	
+	#publicUI
+	
+	
+	
+	.swap-action-stack
+	> button,
+	
+	
+	
+	#publicUI
+	
+	
+	
+	.admin-action-stack
+	> button,
+	
+	
+	
+	#publicUI
+	
+	
+	
+	.developer-action-stack
+	> button {
+	
+	
+	
+	display:block
+	
+	
+	
+	!important;
+	
+	
+	
+	width:100% !important;
+	
+	
+	
+	margin:0 !important;
+	
+	
+	
+	}
+	
+	
+	
+	#publicUI
+	
+	
+	
+	.approval-mode-stack
+	input[type="radio"] {
+	
+	
+	
+	width:auto !important;
+	
+	
+	
+	margin:0 7px 0 0
+	
+	
+	
+	!important;
+	
+	
+	
+	}
+	
+	
+	
+	#toggleAdminFunctions,#toggleDeveloperMode,#toggleDeveloperAdminAbi
+	
+	
+	
+	{
+	
+	
+	
+	display:block
+	
+	
+	
+	!important;
+	
+	
+	
+	width:100% !important;
+	
+	
+	
+	margin:12px 0
+	
+	
+	
+	!important;
+	
+	
+	
+	}
+	
+	
+	
+	</style>
+	
+	
+	
+	<style
+	id="v18-safe-batch-ui">
+	
+	
+	
+	.safe-batch-note{
+	
+	
+	
+	margin-top:8px;
+	
+	
+	
+	padding:10px;
+	
+	
+	
+	border:1px solid
+	
+	
+	
+	rgba(255,255,255,.15);
+	
+	
+	
+	border-radius:8px;
+	
+	
+	
+	font-size:.9em;
+	
+	
+	
+	}
+	
+	
+	
+	.safe-batch-status{margin-top:8px;font-size:.9em}
+	
+	
+	
+	</style>
+	
+	
+	
+	<script src="https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-sdk@9.0.0/dist/safe-apps-sdk.min.js"></script>
+
+	
+	
+	
+	<script src="https://cdn.jsdelivr.net/npm/@safe-global/safe-apps-provider@0.18.0/dist/safe-apps-provider.min.js"></script>
+
+	
+	
+	
+	<style
+	id="production-safe-v20">
+	
+	
+	
+	#connectionActions,#safeConnectionPanel,#wrongNetworkPanel,#safeBatchActions{display:flex;flex-direction:column;gap:10px}
+	
+	
+	
+	#connectionActions
+	
+	
+	
+	button,#safeBatchActions
+	button{margin:0}
+	
+	
+	
+	#safeConnectionPanel,#wrongNetworkPanel,#contractIdentity{margin-top:10px;padding:12px;border:1px
+	
+	
+	
+	solid
+	#d5d9de;border-radius:8px;background:#fafbfc}
+	
+	
+	
+	#safeConnectionPanel
+	
+	
+	
+	.safe-line,#contractIdentity
+	.contract-line{margin:4px 0}
+	
+	
+	
+	.safe-label,.contract-label{font-weight:700}
+	
+	
+	
+	#copyPoolAddress{width:auto;min-width:130px;margin-top:8px}
+	
+	
+	
+	.network-warning{padding:10px;border-radius:7px;background:#fff0f0;border:1px
+	
+	
+	
+	solid
+	#e1a5a5;color:#8b1e1e}
+	
+	
+	
+	.safe-ok{padding:10px;border-radius:7px;background:#eef9f0;border:1px
+	
+	
+	
+	solid
+	#a8d5ad;color:#176b23}
+	
+	
+	
+	.safe-hidden-wallet{display:flex!important}
+	
+	
+	
+	#safeBatchActions{margin-top:10px}
+	
+	
+	
+	#txLink
+	
+	
+	
+	a{display:inline-block;margin-top:6px}
+	
+	
+	
+	.swap-action-stack{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+	
+	
+	
+	.swap-action-stack
+	
+	
+	
+	button{margin:0}
+	
+	
+	
+	#contractIdentity{word-break:break-all}
+	
+	
+	
+	</style>
+	
+	
+	
+	
+	<style id="adapter-polished-layout">
+	:root{color-scheme:light;--ink:#18212f;--muted:#687385;--line:#dfe4ec;--panel:#fff;--wash:#f5f7fb;--blue:#2457d6;--blue-dark:#1945b3;--green:#087e62;--red:#a93c3c}
+	*{box-sizing:border-box}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:1180px;margin:0 auto;padding:22px;background:var(--wash);color:var(--ink);line-height:1.45}
+	h1{font-size:clamp(26px,3vw,34px);letter-spacing:-.035em;margin:10px 0 18px}h2{font-size:23px;letter-spacing:-.02em;margin:0 0 6px}h3{font-size:19px;margin:0;letter-spacing:-.02em}
+	.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 5px 22px rgba(22,35,60,.045)}
+	.row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}.field{flex:1;min-width:210px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+	label{display:block;font-size:13px;font-weight:650;color:#495467;margin:12px 0 6px}input,select,textarea{display:block;width:100%;min-width:0;border:1px solid #cbd3df;border-radius:9px;background:#fff;padding:12px 13px;font:inherit;color:var(--ink);outline:none}input:focus,select:focus,textarea:focus{border-color:#7093ed;box-shadow:0 0 0 3px rgba(36,87,214,.12)}input[readonly]{background:#f6f8fb;color:#43516a}
+	button{width:100%;border:1px solid #cbd3df;border-radius:9px;padding:11px 14px;margin:0;background:#f8fafc;color:#243148;font:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s,border-color .15s,transform .15s}button:hover:not(:disabled){background:#eef2f8;border-color:#9eabc0}button:active:not(:disabled){transform:translateY(1px)}button.primary{background:var(--blue);border-color:var(--blue);color:white}button.primary:hover:not(:disabled){background:var(--blue-dark);border-color:var(--blue-dark)}button.danger{background:#9f3030;color:#fff;border-color:#9f3030}button:disabled{opacity:.52;cursor:not-allowed;filter:saturate(.35)}
+	#connectionActions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}#safeConnectionPanel{display:flex;flex-direction:column;gap:8px}.safe-ok{color:var(--green);font-weight:750}.safe-line{display:flex;gap:8px;flex-wrap:wrap}.safe-label{font-weight:700}.network-warning{color:var(--red)}.notice{padding:12px 14px;border-radius:10px;background:#f0f4fa;border:1px solid #e1e8f3;color:#48556a;margin:10px 0;font-size:14px}.small{font-size:12px;color:var(--muted);line-height:1.5}.hidden{display:none!important}.ok{color:var(--green)}.warn{color:#936000}.err{color:var(--red)}
+	.swap-shell{padding:24px}.section-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:14px}.section-subtitle{margin:4px 0 0;color:var(--muted);font-size:14px}.network-pill{white-space:nowrap;border:1px solid #dbe5fb;background:#f0f5ff;color:#244da8;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:750}
+	.approval-mode-panel{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:13px 15px;border:1px solid var(--line);border-radius:11px;margin:14px 0 18px;background:#fbfcfe}.approval-mode-title{font-size:13px;font-weight:750;margin-right:3px}.radio-option{display:flex;align-items:center;gap:7px;margin:0;font-size:13px;font-weight:550;color:#3e4b60}.radio-option input{width:auto;margin:0;accent-color:var(--blue)}
+	.swap-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:stretch}.swap-card{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:14px;padding:19px;background:linear-gradient(180deg,#fff,#fcfdff)}.buy-card{border-top:4px solid #2457d6}.sell-card{border-top:4px solid #078267}.swap-card-heading{display:flex;align-items:center;gap:11px;margin-bottom:13px}.direction-icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;font-size:24px;font-weight:800}.buy-icon{background:#eaf0ff;color:var(--blue)}.sell-icon{background:#e3f7f0;color:var(--green)}.swap-card-heading p{margin:2px 0 0;color:var(--muted);font-size:13px}.swap-card label{margin-top:10px}.quote-button{margin-top:12px;background:#f3f6fb}.quote-output{white-space:pre-wrap;overflow-wrap:anywhere;min-height:88px;margin:10px 0;padding:12px;border:1px solid #e5eaf1;border-radius:9px;background:#f8fafc;color:#48566b;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}.allowance-line{min-height:18px;margin-bottom:10px}.swap-action-stack{display:flex;flex-direction:column;gap:9px;margin-top:auto;padding-top:8px}.secondary-action{background:#34445f!important;border-color:#34445f!important}.safe-swap-actions{display:none}.safe-swap-actions p{margin:0}.safe-swap-actions button{min-height:46px}
+	.stat{border:1px solid var(--line);border-radius:10px;padding:13px;background:#fff;min-width:0;overflow-wrap:anywhere}.stat b{display:block;font-size:15px;margin-top:5px;overflow-wrap:anywhere}pre{max-width:100%;overflow:auto}code{background:#f0f3f7;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}hr{border:0;border-top:1px solid var(--line);margin:18px 0}details summary{cursor:pointer;font-weight:750}
+	#safeCustomAppPanel{background:#f1f7ff!important;border-color:#d6e4ff!important}#wrongNetworkPanel{display:flex;flex-direction:column;gap:10px}#contractIdentity{overflow-wrap:anywhere}
+	@media(max-width:760px){body{padding:12px}.card,.swap-shell{padding:16px}.swap-grid{grid-template-columns:1fr}.section-heading{flex-direction:column}.network-pill{white-space:normal}#connectionActions{grid-template-columns:repeat(2,minmax(0,1fr))}.approval-mode-panel{align-items:flex-start;flex-direction:column;gap:9px}.field{min-width:100%}}
+	@media(max-width:390px){#connectionActions{grid-template-columns:1fr}.swap-card{padding:14px}}
+	</style>
+	
+	</head>
+	
+	
+	
+	<body>
+	
+	
+	
+	<div
+	id="safeCustomAppPanel" style="display:none;margin:12px
+	
+	
+	
+	0;padding:12px;border:1px
+	solid #888;border-radius:8px;">
+	
+	
+	
+	<strong>Safe
+	
+	
+	
+	Custom
+	App</strong>
+	
+	
+	
+	<div
+	style="margin-top:6px;">
+	
+	
+	
+	Safe mode detected.
+	
+	
+	
+	Combined swap buttons
+	can prepare a two-call Safe batch:
+	
+	
+	
+	token approval +
+	adapter
+	
+	
+	
+	swap.
+	
+	
+	
+	</div>
+	
+	
+	
+	</div>
+	
+	
+	
+	<h1>Fixed Rate
+	USDT / INRP Adapter</h1>
+	
+	
+	
+	<div
+	class="card" id="walletConnectionCard">
+	
+	
+	
+	<h2>Wallet
+	
+	
+	
+	Connection</h2>
+	
+	
+	
+	<div
+	id="normalConnectionActions"><div
+	id="connectionActions">
+	
+	
+	
+	<button class="primary"
+	id="connectInjected" type="button">Connect Injected
+	Wallet</button>
+	
+	
+	
+	<button
+	id="connectWC" type="button">Connect with
+	
+	
+	
+	WalletConnect</button>
+	
+	
+	
+	<button
+	id="switchBsc" type="button">Switch to BNB Smart
+	
+	
+	
+	Chain</button>
+	
+	
+	
+	<button id="disconnect"
+	type="button">Disconnect</button>
+	
+	
+	
+	</div></div>
+	
+	
+	
+	<div
+	id="safeConnectionPanel" style="display:none">
+	
+	
+	
+	<div
+	class="safe-ok"><strong>✓ Connected to Safe</strong></div>
+	
+	
+	
+	<div
+	class="safe-line"><span
+	class="safe-label">Safe:</span> <span id="safeAddressDisplay">—</span></div>
+	
+	
+	
+	<div
+	class="safe-line"><span
+	class="safe-label">Network:</span> <span
+	id="safeNetworkDisplay">—</span></div>
+	
+	
+	
+	<button
+	id="safeDisconnect" type="button">Disconnect Safe
+	
+	
+	
+	App</button>
+	
+	
+	
+	</div>
+	
+	
+	
+	<div
+	id="wrongNetworkPanel" style="display:none">
+	
+	
+	
+	<div
+	class="network-warning"><strong>⚠ Wrong
+	
+	
+	
+	Network</strong><br/>Please
+	switch the connected wallet or Safe to
+	
+	
+	
+	BNB Smart Chain before
+	using pool transactions.</div>
+	
+	
+	
+	<button
+	id="switchBscWrongNetwork" type="button">Switch to BNB
+	
+	
+	
+	Smart
+	Chain</button>
+	
+	
+	
+	</div>
+	
+	
+	
+	<div
+	id="wallet">Not connected</div><div
+	class="small" id="network"></div>
+	
+	
+	
+	<div
+	class="small" id="walletMode"></div><div
+	class="small" id="safeStatus"></div>
+	
+	
+	
+	</div>
+	
+	
+	
+	<div
+	class="card">
+	
+	
+	
+	<h2>Pool</h2>
+	
+	
+	
+	<label>Adapter
+	
+	
+	
+	contract
+	address</label><input id="poolAddress"
+	placeholder="0x..."/>
+	
+	
+	
+	<button
+	id="loadPool" type="button">Load
+	
+	
+	
+	Pool</button><div
+	class="small" id="poolStatus"></div>
+	
+	
+	
+	<div
+	id="contractIdentity" style="display:none">
+	
+	
+	
+	<div class="contract-line"><span
+	class="contract-label">Adapter Contract</span></div>
+	
+	
+	
+	<div
+	class="contract-line"><code
+	id="poolAddressChecksum">—</code></div>
+	
+	
+	
+	<button
+	id="copyPoolAddress" type="button">Copy Contract
+	Address</button>
+	
+	
+	
+	</div>
+	
+	
+	
+	<div class="small">After
+	loading the pool, Developer Mode populates
+	
+	
+	
+	the ABI Read/Write
+	function lists.</div><div class="grid"
+	id="stats"></div>
+	
+	
+	
+	</div>
+	
+	
+	
+	<section id="publicUI" class="swap-section">
+	<div class="card swap-shell">
+	<div class="section-heading">
+	<div>
+	<h2>Public Swap</h2>
+	<p class="section-subtitle">Fixed-rate conversion through the V21 pool adapter. No AMM price impact.</p>
+	</div>
+	<span class="network-pill">BNB Smart Chain • Mainnet</span>
+	</div>
+	<div class="notice" id="publicNotice">Connect a wallet and load the adapter.</div>
+	<div class="approval-mode-panel">
+	<div class="approval-mode-title">Approval mode</div>
+	<label class="radio-option"><input checked name="approvalMode" type="radio" value="exact"> Exact amount <span class="small">(recommended)</span></label>
+	<label class="radio-option"><input name="approvalMode" type="radio" value="unlimited"> Unlimited approval <span class="small">(fewer repeat approvals)</span></label>
+	</div>
+	<div class="swap-grid">
+	<article class="swap-card buy-card" id="buyPanel">
+	<div class="swap-card-heading"><span class="direction-icon buy-icon">↓</span><div><h3>Buy INRP</h3><p>Pay with USDT</p></div></div>
+	<label for="buyAmount">USDT amount</label>
+	<input id="buyAmount" inputmode="decimal" placeholder="100" />
+	<label for="buyMin">Minimum INRP received</label>
+	<input id="buyMin" readonly placeholder="Quote to calculate minimum" />
+	<button class="quote-button" id="quoteBuy" type="button">Quote / Refresh</button>
+	<pre class="quote-output" id="buyQuote">Enter an amount and select Quote / Refresh.</pre>
+	<div class="small allowance-line" id="buyAllowance"></div>
+	<div class="swap-action-stack">
+	<button class="primary" id="approveUSDT" type="button">Approve USDT (Exact Amount)</button>
+	<button class="primary" id="buy" type="button">Buy INRP</button>
+	<button class="primary secondary-action" id="combinedBuyBtn" type="button">Approve USDT + Buy INRP</button>
+	<p class="small">Outside Safe: approval and swap execute in sequence. Inside Safe: one proposal contains approval followed by the adapter swap.</p>
+	</div>
+	</article>
+	<article class="swap-card sell-card" id="sellPanel">
+	<div class="swap-card-heading"><span class="direction-icon sell-icon">↑</span><div><h3>Sell INRP</h3><p>Receive USDT</p></div></div>
+	<label for="sellAmount">INRP amount</label>
+	<input id="sellAmount" inputmode="decimal" placeholder="9900" />
+	<label for="sellMin">Minimum USDT received</label>
+	<input id="sellMin" readonly placeholder="Quote to calculate minimum" />
+	<button class="quote-button" id="quoteSell" type="button">Quote / Refresh</button>
+	<pre class="quote-output" id="sellQuote">Enter an amount and select Quote / Refresh.</pre>
+	<div class="small allowance-line" id="sellAllowance"></div>
+	<div class="swap-action-stack">
+	<button class="primary" id="approveINRP" type="button">Approve INRP (Exact Amount)</button>
+	<button class="primary" id="sell" type="button">Sell INRP</button>
+	<button class="primary secondary-action" id="combinedSellBtn" type="button">Approve INRP + Sell INRP</button>
+	<p class="small">Outside Safe: approval and swap execute in sequence. Inside Safe: one proposal contains approval followed by the adapter swap.</p>
+	</div>
+	</article>
+	</div>
+	<div class="small" id="safeBatchStatus"></div>
+	</div>
+	</section>
+	
+	
+	
+	<div
+	class="stack"><button class="hidden"
+	id="toggleAdminFunctions" type="button">Show Admin
+	
+	
+	
+	Functions</button>
+	
+	
+	
+	<section
+	class="hidden" id="adminUI"
+	style="display:none;margin-top:14px">
+	
+	
+	
+	<div
+	class="card">
+	
+	
+	
+	<h2>Owner / Safe
+	
+	
+	
+	Admin
+	Panel</h2><div class="small">All token and BNB
+	
+	
+	
+	amounts are
+	human-readable. The DApp converts them to uint256 base units
+	
+	
+	
+	automatically.</div><div
+	class="notice" id="adminNotice">Only
+	
+	
+	
+	the on-chain owner can
+	execute these functions. A Safe owner should use this
+	
+	
+	
+	DApp from the Safe App
+	context so transactions can be proposed to the
+	
+	
+	
+	Safe.</div>
+	
+	
+	
+	<h3>Pool
+	
+	
+	
+	parameters</h3>
+	
+	
+	
+	<div
+	class="row"><div
+	class="field"><label>Fixed rate (INRP per 1
+	
+	
+	
+	USDT)</label><input
+	id="adminRate" placeholder="99"/></div>
+	
+	
+	
+	<div
+	class="field"><label>Buy fee (%)</label><input
+	id="adminBuyFee" placeholder="0.30"/></div>
+	
+	
+	
+	<div
+	class="field"><label>Sell fee (%)</label><input
+	id="adminSellFee" placeholder="0.30"/></div></div>
+	
+	
+	
+	<button
+	class="primary" id="setParameters"
+	type="button">Set Rate + Fees</button>
+	
+	
+	
+	<h3>Pause /
+	
+	
+	
+	blacklist</h3>
+	
+	
+	
+	<div
+	class="row"><div class="field"><button
+	id="pauseBtn" type="button">Pause
+	
+	
+	
+	Swaps</button></div><div
+	class="field"><button id="unpauseBtn"
+	type="button">Unpause
+	
+	
+	
+	Swaps</button></div>
+	
+	
+	
+	<div
+	class="field"><input id="blacklistAddress"
+	placeholder="User address"/><button
+	id="blacklistBtn"
+	type="button">Blacklist</button></div>
+	
+	
+	
+	<div
+	class="field"><input id="unblacklistAddress" placeholder="User
+	
+	
+	
+	address"/><button
+	id="unblacklistBtn"
+	type="button">Unblacklist</button></div></div>
+	
+	
+	
+	<h3>Deposits</h3>
+	
+	
+	
+	<div
+	class="row"><div class="field"><label>USDT
+	
+	
+	
+	deposit</label><input
+	id="depositUSDTAmount"
+	placeholder="1000"/></div>
+	
+	
+	
+	<div class="field"><label>INRP
+	
+	
+	
+	deposit</label><input
+	id="depositINRPAmount"
+	placeholder="99000"/></div></div>
+	
+	
+	
+	<div
+	class="row"><div class="field"><button
+	id="depositUSDTBtn" type="button">Deposit
+	
+	
+	
+	USDT</button></div><div
+	class="field"><button id="depositINRPBtn"
+	type="button">Deposit
+	
+	
+	
+	INRP</button></div><div
+	class="field"><button id="depositBothBtn"
+	type="button">Deposit
+	
+	
+	
+	Both</button></div></div>
+	
+	
+	
+	<h3>Withdrawals</h3>
+	
+	
+	
+	<div
+	class="row"><div class="field"><label>USDT
+	
+	
+	
+	amount</label><input
+	id="withdrawUSDTAmount"
+	placeholder="1000"/></div>
+	
+	
+	
+	<div
+	class="field"><label>INRP amount</label><input
+	id="withdrawINRPAmount"
+	placeholder="99000"/></div><div
+	class="field"><label>Recipient</label><input
+	id="withdrawTo"
+	placeholder="0x..."/></div></div>
+	
+	
+	
+	<div
+	class="row"><div class="field"><button
+	id="withdrawUSDTBtn" type="button">Withdraw USDT
+	
+	
+	
+	liquidity</button></div><div
+	class="field"><button id="withdrawINRPBtn"
+	type="button">Withdraw INRP
+	
+	
+	
+	liquidity</button></div><div
+	class="field"><button id="withdrawBothBtn"
+	type="button">Withdraw
+	
+	
+	
+	Both</button></div></div>
+	
+	
+	
+	<h3>Fees</h3>
+	
+	
+	
+	<div
+	class="row"><div class="field"><label>Fee
+	
+	
+	
+	USDT
+	amount</label><input id="feeAmount"
+	placeholder="100"/></div><div
+	class="field"><label>Fee recipient</label><input id="feeTo"
+	placeholder="0x..."/></div></div>
+	
+	
+	
+	<div
+	class="row"><div class="field"><button
+	id="withdrawFeeBtn" type="button">Withdraw
+	
+	
+	
+	Fees</button></div><div
+	class="field"><button id="withdrawAllFeeBtn"
+	type="button">Withdraw All
+	
+	
+	
+	Fees</button></div></div>
+	
+	
+	
+	<h3>Rescue</h3>
+	
+	
+	
+	<div
+	class="row"><div
+	class="field"><label>Other BEP-20
+	
+	
+	
+	token</label><input
+	id="rescueToken"
+	placeholder="0x..."/></div><div
+	class="field"><label>Token amount (human
+	
+	
+	
+	units)</label><input
+	id="rescueAmount" placeholder="100"/></div><div
+	class="field"><label>Recipient</label><input
+	id="rescueTo"
+	placeholder="0x..."/></div></div>
+	
+	
+	
+	<button
+	id="rescueTokenBtn" type="button">Rescue BEP-20
+	
+	
+	
+	token</button>
+	
+	
+	
+	<div
+	class="row"><div class="field"><label>BNB
+	
+	
+	
+	amount</label><input
+	id="rescueBNBAmount"
+	placeholder="0.1"/></div><div
+	class="field"><label>BNB recipient</label><input
+	id="rescueBNBTo"
+	placeholder="0x..."/></div></div>
+	
+	
+	
+	<button
+	id="rescueBNBBtn" type="button">Rescue
+	
+	
+	
+	BNB</button>
+	
+	
+	
+	<h3>Ownership</h3>
+	
+	
+	
+	<div
+	class="row"><div class="field"><label>New
+	
+	
+	
+	owner</label><input
+	id="newOwner" placeholder="0x..."/></div><div
+	class="field"><button id="transferOwnershipBtn"
+	type="button">Transfer
+	
+	
+	
+	Ownership</button></div>
+	
+	
+	
+	<div
+	class="field"><button class="danger"
+	id="renounceOwnershipBtn" type="button">Renounce
+	
+	
+	
+	Ownership</button></div></div>
+	
+	
+	
+	</div>
+	
+	
+	
+	<div
+	class="card">
+	
+	
+	
+	<button
+	id="toggleHumanAdminAbi" type="button">Show
+	Human-Readable Admin ABI Read /
+	
+	
+	
+	Write</button>
+	
+	
+	
+	<section
+	class="hidden" id="humanAdminAbiPanel" style="display:none;margin-top:14px">
+	
+	
+	
+	<h3>Human-Readable
+	
+	
+	
+	Admin ABI Read /
+	Write</h3>
+	
+	
+	
+	<div
+	class="notice">Owner/Safe only. Enter normal human-readable
+	
+	
+	
+	values. The DApp
+	converts them to the required contract units and executes
+	
+	
+	
+	through the existing wallet/Safe
+	transaction layer.</div>
+	
+	
+	
+	<label>Admin
+	
+	
+	
+	function</label>
+	
+	
+	
+	<select
+	id="humanAdminFunction">
+	
+	
+	
+	<option
+	value="setRate">Set Rate — INRP per USDT</option>
+	
+	
+	
+	<option
+	value="setFees">Set Buy/Sell Fees (%)</option>
+	
+	
+	
+	<option
+	value="depositUSDT">Deposit USDT</option>
+	
+	
+	
+	<option
+	value="depositINRP">Deposit INRP</option>
+	
+	
+	
+	<option
+	value="depositLiquidity">Deposit USDT + INRP</option>
+	
+	
+	
+	<option
+	value="withdrawUSDT">Withdraw USDT</option>
+	
+	
+	
+	<option
+	value="withdrawINRP">Withdraw INRP</option>
+	
+	
+	
+	<option value="withdrawLiquidity">Withdraw
+	USDT + INRP</option>
+	
+	
+	
+	<option
+	value="withdrawFees">Withdraw USDT Fees</option>
+	
+	
+	
+	<option
+	value="withdrawAllFees">Withdraw All USDT Fees</option>
+	
+	
+	
+	<option
+	value="pause">Pause</option>
+	
+	
+	
+	<option
+	value="unpause">Unpause</option>
+	
+	
+	
+	<option
+	value="blacklist">Blacklist User</option>
+	
+	
+	
+	<option
+	value="unblacklist">Unblacklist User</option>
+	
+	
+	
+	<option
+	value="rescueToken">Rescue BEP-20 Token</option>
+	
+	
+	
+	<option
+	value="rescueBNB">Rescue BNB</option>
+	
+	
+	
+	<option value="transferOwnership">Transfer
+	Ownership</option>
+	
+	
+	
+	<option
+	value="renounceOwnership">Renounce
+	
+	
+	
+	Ownership</option>
+	
+	
+	
+	</select>
+	
+	
+	
+	<div
+	id="humanAdminFields"></div>
+	
+	
+	
+	<button
+	class="primary" id="humanAdminExecute"
+	type="button">Execute Admin
+	
+	
+	
+	Function</button>
+	
+	
+	
+	<div
+	class="small" id="humanAdminPrepared"></div>
+	
+	
+	
+	<div
+	class="small" id="humanAdminStatus"></div>
+	
+	
+	
+	</section>
+	
+	
+	
+	</div>
+	
+	
+	
+	</section></div>
+	
+	
+	
+	<div
+	class="card">
+	
+	
+	
+	<div class="stack" style="display:flex;flex-wrap:wrap;gap:10px">
+	<button id="toggleDeveloperMode" type="button">Show Developer Mode</button>
+	<button id="toggleDeveloperAdminAbi" type="button">Show Developer Admin Read / Write</button>
+	</div>
+	
+	
+	
+	<section
+	class="hidden" id="developerModePanel"
+	style="display:none;margin-top:14px">
+	
+	
+	
+	<h3>Developer
+	
+	
+	
+	Mode</h3>
+	
+	
+	
+	<div
+	class="notice">Developer diagnostics and the human-readable
+	
+	
+	
+	Admin Read / Write
+	interface. Raw uint256/base-unit entry has been removed
+	
+	
+	
+	from this production
+	DApp.</div>
+	
+	
+	
+	<h4>Contract
+	
+	
+	
+	Diagnostics</h4>
+	
+	
+	
+	<button
+	id="developerRefresh" type="button">Refresh Contract
+	Diagnostics</button>
+	
+	
+	
+	<pre
+	id="developerResult">—</pre>
+	
+	
+	
+	<hr/>
+	
+	
+	
+	
+	
+	
+	
+	<section
+	class="hidden" id="developerAdminAbiPanel"
+	style="display:none;margin-top:14px">
+	
+	
+	
+	<h3>Developer
+	
+	
+	
+	Admin Read /
+	Write</h3>
+	
+	
+	
+	<div
+	class="notice">Human-readable interface for owner/admin
+	functions.
+	
+	
+	
+	Amounts are entered in
+	normal token units such as USDT, INRP and BNB. Fees
+	
+	
+	
+	are entered as
+	percentages such as 0.30%. The DApp converts values to
+	
+	
+	
+	contract units
+	automatically before reading or executing the
+	
+	
+	
+	contract.</div>
+	
+	
+	
+	<h4>Admin / Pool
+	
+	
+	
+	Read</h4>
+	
+	
+	
+	<label>Read
+	
+	
+	
+	function</label>
+	
+	
+	
+	<select
+	id="adminReadFunction">
+	
+	
+	
+	<option
+	value="getPoolInfo">Pool information</option><option
+	value="owner">Owner address</option><option
+	value="paused">Pause status</option><option
+	value="rateWAD">Fixed rate</option><option
+	value="buyFeeBps">Buy fee</option><option
+	value="sellFeeBps">Sell fee</option><option
+	value="feesAccruedUSDT">Accrued USDT
+	
+	
+	
+	fees</option><option
+	value="availableUSDT">Available
+	
+	
+	
+	USDT liquidity</option><option
+	value="availableINRP">Available INRP
+	liquidity</option><option value="getBalances">Pool
+	balances</option><option value="blacklisted">Check
+	blacklist
+	
+	
+	
+	status</option><option
+	value="quoteBuy">Quote
+	
+	
+	
+	Buy</option><option
+	value="quoteSell">Quote
+	
+	
+	
+	Sell</option>
+	
+	
+	
+	</select>
+	
+	
+	
+	<div
+	id="adminReadFields"></div><button
+	id="adminReadExecute"
+	type="button">Read</button><pre
+	id="adminReadResult">—</pre>
+	
+	
+	
+	<hr/>
+	
+	
+	
+	<h4>Event
+	
+	
+	
+	Logs</h4>
+	
+	
+	
+	<div
+	class="notice">Events are emitted logs, not callable Solidity
+	
+	
+	
+	read functions. Read
+	recent BNB Smart Chain logs for the loaded
+	
+	
+	
+	pool.</div>
+	
+	
+	
+	<div
+	class="row"><div
+	class="field"><label>Event</label><select
+	id="eventReadFunction"><option
+	value="SwapLimitsChecked">SwapLimitsChecked</option><option
+	value="AdminAction">AdminAction</option></select></div><div
+	class="field"><label>Recent blocks to
+	
+	
+	
+	scan</label><input
+	id="eventBlockRange" min="1" step="1"
+	type="number" value="5000"/></div></div>
+	
+	
+	
+	<button
+	id="eventReadExecute" type="button">Read Event
+	
+	
+	
+	Logs</button><pre
+	id="eventReadResult">—</pre><hr/>
+	
+	
+	
+	<h4>Admin
+	
+	
+	
+	Write</h4>
+	
+	
+	
+	<label>Admin
+	
+	
+	
+	function</label>
+	
+	
+	
+	<select
+	id="adminWriteFunction">
+	
+	
+	
+	<option
+	value="setRate">Change fixed exchange
+	
+	
+	
+	rate</option><option
+	value="setFees">Change buy / sell
+	
+	
+	
+	fees</option><option
+	value="pause">Pause
+	
+	
+	
+	swaps</option><option
+	value="unpause">Unpause swaps</option><option
+	value="blacklist">Blacklist user</option><option
+	value="unblacklist">Unblacklist user</option><option
+	value="depositUSDT">Deposit USDT</option><option
+	value="depositINRP">Deposit
+	
+	
+	
+	INRP</option><option
+	value="depositLiquidity">Deposit
+	
+	
+	
+	USDT +
+	INRP</option><option value="withdrawUSDT">Withdraw USDT
+	
+	
+	
+	liquidity</option><option
+	value="withdrawINRP">Withdraw
+	
+	
+	
+	INRP
+	liquidity</option><option value="withdrawLiquidity">Withdraw
+	USDT +
+	
+	
+	
+	INRP</option><option
+	value="withdrawFees">Withdraw
+	
+	
+	
+	accumulated USDT
+	fees</option><option value="withdrawAllFees">Withdraw
+	all accumulated USDT
+	
+	
+	
+	fees</option><option
+	value="rescueToken">Rescue other
+	
+	
+	
+	BEP-20 token</option><option
+	value="rescueBNB">Rescue
+	
+	
+	
+	BNB</option><option
+	value="transferOwnership">Transfer
+	
+	
+	
+	ownership</option><option
+	value="renounceOwnership">Renounce ownership</option>
+	
+	
+	
+	</select>
+	
+	
+	
+	<div
+	id="adminWriteFields"></div><button
+	class="primary" id="adminWriteExecute"
+	type="button">Execute Admin
+	
+	
+	
+	Function</button><div
+	class="small"
+	id="adminWritePrepared"></div><div
+	class="small" id="adminWriteStatus"></div>
+	
+	
+	
+	</section>
+	
+	
+	
+	</section>
+	
+	
+	
+	</div>
+	
+	
+	
+	<div
+	class="card"><h2>Transaction Status</h2><div id="txStatus">No
+	transaction yet.</div><div
+	id="txLink"></div></div>
+	
+	
+	
+	<script src="https://cdn.jsdelivr.net/npm/ethers@6.14.0/dist/ethers.umd.min.js"></script>
+
+	
+	
+	
+	<script src="https://unpkg.com/@walletconnect/ethereum-provider@2.23.10/dist/index.umd.js"></script>
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<script id="production-safe-adapter-main">
+	(function(){
+	"use strict";
+	
+	const ADAPTER_ADDRESS="0x0C314572666b543Bf4656abBf96D36ddF032801b";
+	const V21_POOL="0xdfC44A2cb792BA070DF2D75a650C49147EfF6e66";
+	const USDT_ADDRESS="0x55d398326f99059fF775485246999027B3197955";
+	const INRP_ADDRESS="0x33987b4B97033DfB0943c4eE67C4aaDD146eE580";
+	const CHAIN_ID=56n, CHAIN_HEX="0x38";
+	const RPC="https://bsc-dataseed.binance.org";
+	const EXPLORER="https://bscscan.com";
+	const WC_PROJECT_ID="ccef25dcfdb87869f9617936952c987d";
+	
+	const ADAPTER_ABI=[
+	"function owner() view returns(address)",
+	"function paused() view returns(bool)",
+	"function blacklisted(address) view returns(bool)",
+	"function quoteBuy(uint256) view returns(uint256,uint256)",
+	"function quoteSell(uint256) view returns(uint256,uint256,uint256)",
+	"function buyINRP(uint256,uint256)",
+	"function sellINRP(uint256,uint256)",
+	"function pause()","function unpause()",
+	"function blacklist(address)","function unblacklist(address)",
+	"function rescueToken(address,uint256,address)",
+	"function rescueBNB(uint256,address)",
+	"function transferOwnership(address)","function renounceOwnership()",
+	"event Swap(address indexed user,bool indexed isBuy,uint256 inputAmount,uint256 outputAmount,uint256 minOutput)",
+	"event OwnershipTransferred(address indexed previousOwner,address indexed newOwner)",
+	"event Paused(address indexed account)","event Unpaused(address indexed account)",
+	"event Blacklisted(address indexed account)","event Unblacklisted(address indexed account)",
+	"event TokenRescued(address indexed token,uint256 amount,address indexed to)",
+	"event BNBRescued(uint256 amount,address indexed to)"
+	];
+	const ERC20_ABI=[
+	"function decimals() view returns(uint8)",
+	"function balanceOf(address) view returns(uint256)",
+	"function allowance(address,address) view returns(uint256)",
+	"function approve(address,uint256) returns(bool)"
+	];
+	
+	let provider=null, signer=null, rawProvider=null, safeSdk=null, safeInfo=null, contract=null;
+	let safeMode=false;
+	
+	const $=id=>document.getElementById(id);
+	const msg=e=>e?.shortMessage||e?.reason||e?.message||String(e);
+	const addr=a=>ethers.getAddress(a);
+	const short=a=>a?a.slice(0,6)+"…"+a.slice(-4):"";
+	function txUrl(h){return EXPLORER+"/tx/"+h}
+	function setTx(text,hash){
+	if($("txStatus"))$("txStatus").textContent=text;
+	if($("txLink"))$("txLink").innerHTML=hash?'<a target="_blank" rel="noopener" href="'+txUrl(hash)+'">View on BscScan</a>':"";
+	}
+	function fail(e){alert(msg(e))}
+	function accountAddress(){
+	if(safeMode&&safeInfo?.safeAddress)return addr(safeInfo.safeAddress);
+	throw new Error("Safe-only mode: open this app from inside a verified Safe Custom App. Standalone wallet accounts are not supported.");
+	}
+	function requireSafeContext(){
+	if(!safeMode||!safeSdk||!safeInfo?.safeAddress)throw new Error("Safe-only mode: this action requires a verified Safe Custom App context on BNB Smart Chain Mainnet.");
+	}
+	function adapter(){return addr(ADAPTER_ADDRESS)}
+	function isMainnet(chain){return BigInt(chain)===CHAIN_ID}
+	
+	function setWalletButtonsDisabled(disabled, reason=""){
+	["connectInjected","connectWC","switchBsc","switchBscWrongNetwork","disconnect"].forEach(id=>{
+	const el=$(id); if(!el)return;
+	el.disabled=!!disabled;
+	el.setAttribute("aria-disabled", disabled ? "true" : "false");
+	if(disabled){el.title=reason || "Wallet connection is managed by Safe.";}
+	else {el.removeAttribute("title");}
+	});
+	}
+	async function detectSafe(){
+	safeMode=false; safeSdk=null; safeInfo=null;
+	const embeddedAtStart = window.parent !== window;
+	if(embeddedAtStart) setWalletButtonsDisabled(true, "Checking Safe connection…");
+	try{
+	const mod=await import("https://esm.sh/@safe-global/safe-apps-sdk@9.1.0");
+	const SDK=mod.default||mod;
+	const sdk=new SDK({allowedDomains:[/^app\.safe\.global$/]});
+	const info=await sdk.safe.getInfo();
+	if(info?.safeAddress){
+	if(!isMainnet(info.chainId)) throw new Error("Safe is not on BNB Smart Chain mainnet.");
+	safeSdk=sdk; safeInfo=info; safeMode=true;
+	provider=new ethers.JsonRpcProvider(RPC);
+	$("safeAddressDisplay").textContent=addr(info.safeAddress);
+	$("safeNetworkDisplay").textContent="BNB Smart Chain (chain 56)";
+	$("safeStatus").textContent="✓ Safe Custom App context detected.";
+	$("normalConnectionActions").classList.remove("safe-hidden-wallet");
+	setWalletButtonsDisabled(true, "Safe controls this connection while the app is open inside Safe.");
+	$("safeDisconnect").disabled=true;
+	$("safeConnectionPanel").style.display="flex";
+	$("safeCustomAppPanel").style.display="block";
+	return true;
+	}
+	}catch(e){console.debug("Not running in an accepted Safe Custom App context:",e)}
+	const embedded = window.parent !== window;
+	$("safeStatus").textContent = embedded
+	? "Safe iframe detected, but the Safe context could not be verified. All wallet and transaction actions remain disabled. Reload this Custom App from inside Safe and verify the Safe Apps SDK handshake."
+	: "Safe-only app: standalone browser use is disabled. Open this app from inside your Safe Custom App on BNB Smart Chain Mainnet.";
+	$("safeConnectionPanel").style.display="none";
+	$("safeCustomAppPanel").style.display="block";
+	$("safeCustomAppPanel").innerHTML='<strong>Safe-only mode</strong><div style="margin-top:6px">This app can only be used from inside a verified Safe Custom App on BNB Smart Chain Mainnet. Standalone browser-wallet and WalletConnect connections are disabled.</div>';
+	$("normalConnectionActions").classList.remove("safe-hidden-wallet");
+	setWalletButtonsDisabled(true, embedded ? "Safe context was not verified; wallet connections are disabled." : "Safe-only mode: open this app inside Safe.");
+	if($("safeDisconnect"))$("safeDisconnect").disabled=true;
+	if($("wallet"))$("wallet").textContent="Safe not verified";
+	if($("walletMode"))$("walletMode").textContent="Connection: Safe-only — open inside Safe";
+	return false;
+	}
+	
+	async function ensureMainnetInjected(){
+	if(!window.ethereum)throw new Error("No injected wallet found.");
+	const p=new ethers.BrowserProvider(window.ethereum);
+	const n=await p.getNetwork();
+	if(n.chainId===CHAIN_ID)return;
+	try{
+	await window.ethereum.request({method:"wallet_switchEthereumChain",params:[{chainId:CHAIN_HEX}]});
+	}catch(e){
+	if(e.code===4902){
+	await window.ethereum.request({method:"wallet_addEthereumChain",params:[{
+	chainId:CHAIN_HEX,chainName:"BNB Smart Chain",
+	nativeCurrency:{name:"BNB",symbol:"BNB",decimals:18},
+	rpcUrls:[RPC],blockExplorerUrls:[EXPLORER]
+	}]});
+	}else throw e;
+	}
+	}
+	async function connectInjected(){
+	throw new Error("Safe-only mode: injected-wallet connections are disabled. Open the app inside a verified Safe Custom App.");
+	await ensureMainnetInjected();
+	rawProvider=window.ethereum;
+	provider=new ethers.BrowserProvider(rawProvider);
+	await provider.send("eth_requestAccounts",[]);
+	signer=await provider.getSigner();
+	await finishBrowserConnection("Injected wallet");
+	}
+	async function connectWalletConnect(){
+	throw new Error("Safe-only mode: WalletConnect is disabled. Open the app inside a verified Safe Custom App.");
+	if(WC_PROJECT_ID==="YOUR_WALLETCONNECT_PROJECT_ID")throw new Error("WalletConnect Project ID is not configured.");
+	let EthereumProvider=null;
+	try {
+	const mod=await import("https://esm.sh/@walletconnect/ethereum-provider@2.23.10");
+	EthereumProvider=mod.EthereumProvider||mod.default?.EthereumProvider||mod.default;
+	} catch(importError) {
+	console.warn("WalletConnect module import failed; trying the bundled provider.", importError);
+	}
+	// Some hosted environments block esm.sh imports. Use the UMD bundle if available.
+	if(!EthereumProvider?.init) {
+	const wcGlobal=window.EthereumProvider || window.WalletConnectEthereumProvider || window["@walletconnect/ethereum-provider"];
+	EthereumProvider=wcGlobal?.EthereumProvider || wcGlobal?.default || wcGlobal || null;
+	}
+	if(!EthereumProvider?.init)throw new Error("WalletConnect provider could not be loaded. Check that the WalletConnect provider script is reachable, then reload the page.");
+	const wc=await EthereumProvider.init({
+	projectId:WC_PROJECT_ID,optionalChains:[56],showQrModal:true,
+	methods:["eth_sendTransaction","personal_sign","eth_signTypedData","eth_signTypedData_v4"],
+	events:["chainChanged","accountsChanged"],
+	metadata:{name:"Fixed Rate USDT / INRP Adapter",description:"Fixed-rate BNB Smart Chain adapter",url:location.origin,icons:[]},
+	rpcMap:{56:RPC}
+	});
+	await wc.connect();
+	rawProvider=wc; provider=new ethers.BrowserProvider(wc); signer=await provider.getSigner();
+	await finishBrowserConnection("WalletConnect");
+	wc.on?.("accountsChanged",async()=>{try{signer=await provider.getSigner();await finishBrowserConnection("WalletConnect")}catch(e){console.warn(e)}});
+	wc.on?.("chainChanged",async()=>{try{signer=await provider.getSigner();await refreshNetwork()}catch(e){console.warn(e)}});
+	}
+	async function switchMainnet(){
+	requireSafeContext();
+	throw new Error("The Safe controls the network. Network switching is unavailable in Safe-only mode.");
+	if(!rawProvider)throw new Error("Connect a wallet first.");
+	if(rawProvider===window.ethereum)await ensureMainnetInjected();
+	else if(rawProvider.switchChain)await rawProvider.switchChain(56);
+	else await rawProvider.request({method:"wallet_switchEthereumChain",params:[{chainId:CHAIN_HEX}]});
+	await refreshNetwork();
+	}
+	async function refreshNetwork(){
+	if(!provider)return;
+	const n=await provider.getNetwork();
+	const ok=n.chainId===CHAIN_ID;
+	$("network").textContent="Chain ID: "+n.chainId+(ok?" — BNB Smart Chain detected.":" — Wrong network.");
+	updateNetworkUI(ok);
+	}
+	async function finishBrowserConnection(mode){
+	throw new Error("Safe-only mode: browser-wallet connections are not supported. Use the verified Safe context.");
+	const a=await signer.getAddress(),n=await provider.getNetwork();
+	$("wallet").textContent="Connected: "+short(a)+" ("+a+")";
+	$("walletMode").textContent="Connection: "+mode+" — Adapter mode";
+	$("network").textContent="Chain ID: "+n.chainId+(n.chainId===CHAIN_ID?" — BNB Smart Chain detected.":" — Wrong network.");
+	updateNetworkUI(n.chainId===CHAIN_ID);
+	await loadAdapter();
+	}
+	function updateNetworkUI(ok){
+	if($("wrongNetworkPanel"))$("wrongNetworkPanel").style.display=ok?"none":"flex";
+	["buy","sell","approveUSDT","approveINRP","approveBuyUSDT","approveSellINRP","safeBuyBatch","safeSellBatch","combinedBuyBtn","combinedSellBtn",
+	"pauseBtn","unpauseBtn","blacklistBtn","unblacklistBtn","rescueTokenBtn","rescueBNBBtn",
+	"transferOwnershipBtn","renounceOwnershipBtn"].forEach(id=>{const e=$(id);if(e)e.disabled=!ok});
+	}
+	function updateSafeUI(){
+	// Keep connection buttons visible, but disabled in Safe/embedded contexts.
+	if(window.parent!==window || safeMode)setWalletButtonsDisabled(true,"Safe controls this connection while the app is open inside Safe.");
+	else setWalletButtonsDisabled(false);
+	// Safe users should use the single combined action; standalone users use
+	// separate approve/swap actions or the combined convenience action.
+	["approveUSDT","buy","approveINRP","sell"].forEach(id=>{const e=$(id);if(e)e.style.display=safeMode?"none":"block";});
+	["combinedBuyBtn","combinedSellBtn"].forEach(id=>{const e=$(id);if(e)e.style.display="block";});
+	if($("safeBatchActions"))$("safeBatchActions").style.display="none";
+	}
+	
+	async function loadAdapter(){
+	requireSafeContext();
+	if(!provider)throw new Error("Connect a wallet first, or open this page inside Safe.");
+	contract=new ethers.Contract(adapter(),ADAPTER_ABI,provider);
+	$("poolAddress").value=adapter();
+	$("poolAddress").readOnly=true;
+	$("poolAddressChecksum").textContent=adapter();
+	$("contractIdentity").style.display="block";
+	$("poolStatus").textContent="Adapter loaded. Fixed V21 pool: "+V21_POOL;
+	$("publicNotice").textContent="Adapter mode: approve USDT/INRP to the adapter. The adapter executes against the fixed V21 pool.";
+	updateSafeUI();
+	await refreshAdapter();
+	await preflight();
+	await updateAdminVisibility();
+	}
+	async function refreshAdapter(){
+	if(!contract)return;
+	const [owner,paused]=await Promise.all([contract.owner(),contract.paused()]);
+	let userUSDT="—",userINRP="—",black="—";
+	try{
+	const u=await accountAddress();
+	const [bu,bi,bk]=await Promise.all([
+	new ethers.Contract(USDT_ADDRESS,ERC20_ABI,provider).balanceOf(u),
+	new ethers.Contract(INRP_ADDRESS,ERC20_ABI,provider).balanceOf(u),
+	contract.blacklisted(u)
+	]);
+	userUSDT=ethers.formatUnits(bu,18);userINRP=ethers.formatUnits(bi,6);black=bk?"YES":"NO";
+	}catch(e){}
+	$("stats").innerHTML=[
+	["Adapter",owner],["Paused",paused?"YES":"NO"],["V21 Pool",V21_POOL],
+	["Your USDT",userUSDT],["Your INRP",userINRP],["Blacklisted",black]
+	].map(x=>'<div class="stat"><span>'+x[0]+'</span><b>'+x[1]+'</b></div>').join("");
+	}
+	function amount(v,d){const s=String(v??"").trim();if(!s||Number(s)<=0)throw new Error("Enter a positive amount.");return ethers.parseUnits(s,d)}
+	function approvalMode(){return document.querySelector('input[name="approvalMode"]:checked')?.value||"exact"}
+	async function tokenInfo(token,owner,spender){
+	const t=new ethers.Contract(token,ERC20_ABI,provider);
+	return {balance:await t.balanceOf(owner),allowance:await t.allowance(owner,spender)};
+	}
+	async function preflight(){
+	if(!contract||!provider)return;
+	try{
+	const u=await accountAddress();
+	const x=String($("buyAmount").value||"").trim();
+	if(x){
+	const i=await tokenInfo(USDT_ADDRESS,u,adapter());
+	const req=amount(x,18);
+	$("buyAllowance").textContent="USDT balance: "+ethers.formatUnits(i.balance,18)+" | Adapter allowance: "+ethers.formatUnits(i.allowance,18)+(i.balance<req?" — INSUFFICIENT BALANCE":i.allowance<req?" — APPROVAL REQUIRED":" — READY");
+	}
+	}catch(e){$("buyAllowance").textContent=""}
+	try{
+	const u=await accountAddress();
+	const x=String($("sellAmount").value||"").trim();
+	if(x){
+	const i=await tokenInfo(INRP_ADDRESS,u,adapter());
+	const req=amount(x,6);
+	$("sellAllowance").textContent="INRP balance: "+ethers.formatUnits(i.balance,6)+" | Adapter allowance: "+ethers.formatUnits(i.allowance,6)+(i.balance<req?" — INSUFFICIENT BALANCE":i.allowance<req?" — APPROVAL REQUIRED":" — READY");
+	}
+	}catch(e){$("sellAllowance").textContent=""}
+	}
+	async function quoteBuy(){
+	requireSafeContext();
+	const x=amount($("buyAmount").value,18),q=await contract.quoteBuy(x),m=q[1];
+	$("buyMin").value=ethers.formatUnits(m,6);
+	$("buyQuote").textContent="USDT fee: "+ethers.formatUnits(q[0],18)+"\nQuoted INRP: "+ethers.formatUnits(q[1],6)+"\nMinimum INRP received: "+ethers.formatUnits(m,6)+"\nVenue: fixed V21 pool via adapter";
+	await preflight();
+	}
+	async function quoteSell(){
+	requireSafeContext();
+	const x=amount($("sellAmount").value,6),q=await contract.quoteSell(x),m=q[2];
+	$("sellMin").value=ethers.formatUnits(m,18);
+	$("sellQuote").textContent="USDT gross: "+ethers.formatUnits(q[0],18)+"\nUSDT fee: "+ethers.formatUnits(q[1],18)+"\nQuoted USDT: "+ethers.formatUnits(q[2],18)+"\nMinimum USDT received: "+ethers.formatUnits(m,18)+"\nVenue: fixed V21 pool via adapter";
+	await preflight();
+	}
+	async function submitSafeTx(label,txs){
+	if(!safeMode||!safeSdk)throw new Error("This action requires the app to be opened inside Safe.");
+	const r=await safeSdk.txs.send({txs});
+	setTx(label+" proposed to Safe. Safe transaction hash: "+r.safeTxHash,r.safeTxHash);
+	return r;
+	}
+	async function approveToken(token,label,human,dec){
+	requireSafeContext();
+	const x=amount(human,dec),u=await accountAddress();
+	const t=new ethers.Contract(token,ERC20_ABI,provider);
+	const bal=await t.balanceOf(u),allow=await t.allowance(u,adapter());
+	if(bal<x)throw new Error("Insufficient "+label+" balance.");
+	if(allow>=x){setTx(label+" adapter allowance is already sufficient.");return}
+	const target=approvalMode()==="unlimited"?ethers.MaxUint256:x;
+	if(safeMode){
+	const ti=new ethers.Interface(["function approve(address,uint256) returns(bool)"]);
+	const data=ti.encodeFunctionData("approve",[adapter(),target]);
+	const r=await submitSafeTx(label+" approval",[{to:token,value:"0",data}]);
+	setTx(label+" approval proposed to Safe. Review and confirm it.",r.safeTxHash);
+	return r;
+	}
+	if(!signer)throw new Error("Connect a wallet first.");
+	const ts=new ethers.Contract(token,ERC20_ABI,signer);
+	const tx=await ts.approve(adapter(),target);setTx(label+" approval submitted",tx.hash);await tx.wait();setTx(label+" approval confirmed",tx.hash);await preflight();
+	}
+	async function adapterBuy(){
+	requireSafeContext();
+	const x=amount($("buyAmount").value,18),q=await contract.quoteBuy(x),m=q[1];
+	$("buyMin").value=ethers.formatUnits(m,6);
+	const u=await accountAddress(),i=await tokenInfo(USDT_ADDRESS,u,adapter());
+	if(i.balance<x)throw new Error(safeMode?"Safe has insufficient USDT balance.":"Insufficient USDT balance.");
+	if(i.allowance<x)throw new Error("Approve USDT to the adapter first, or use Approve USDT + Buy INRP.");
+	const data=contract.interface.encodeFunctionData("buyINRP",[x,m]);
+	if(safeMode)return submitSafeTx("Buy INRP",[{to:adapter(),value:"0",data}]);
+	if(!signer)throw new Error("Connect a wallet first.");
+	const tx=await signer.sendTransaction({to:adapter(),value:0,data});
+	setTx("Buy INRP via adapter submitted",tx.hash);await tx.wait();setTx("Buy INRP via adapter confirmed",tx.hash);await refreshAdapter();await preflight();
+	}
+	async function adapterSell(){
+	requireSafeContext();
+	const x=amount($("sellAmount").value,6),q=await contract.quoteSell(x),m=q[2];
+	$("sellMin").value=ethers.formatUnits(m,18);
+	const u=await accountAddress(),i=await tokenInfo(INRP_ADDRESS,u,adapter());
+	if(i.balance<x)throw new Error(safeMode?"Safe has insufficient INRP balance.":"Insufficient INRP balance.");
+	if(i.allowance<x)throw new Error("Approve INRP to the adapter first, or use Approve INRP + Sell INRP.");
+	const data=contract.interface.encodeFunctionData("sellINRP",[x,m]);
+	if(safeMode)return submitSafeTx("Sell INRP",[{to:adapter(),value:"0",data}]);
+	if(!signer)throw new Error("Connect a wallet first.");
+	const tx=await signer.sendTransaction({to:adapter(),value:0,data});
+	setTx("Sell INRP via adapter submitted",tx.hash);await tx.wait();setTx("Sell INRP via adapter confirmed",tx.hash);await refreshAdapter();await preflight();
+	}
+	async function safeBatchBuy(){
+	requireSafeContext();
+	if(!safeMode)throw new Error("Open the app inside Safe for Safe transactions.");
+	const x=amount($("buyAmount").value,18),q=await contract.quoteBuy(x),m=q[1];
+	$("buyMin").value=ethers.formatUnits(m,6);
+	const u=await accountAddress(),i=await tokenInfo(USDT_ADDRESS,u,adapter());
+	if(i.balance<x)throw new Error("Safe has insufficient USDT.");
+	const ti=new ethers.Interface(["function approve(address,uint256)"]);
+	const swap=contract.interface.encodeFunctionData("buyINRP",[x,m]);
+	$("safeBatchStatus").textContent="Preparing Safe batch: USDT.approve(adapter) + adapter.buyINRP…";
+	const r=await submitSafeTx("Safe buy batch",[{
+	to:USDT_ADDRESS,value:"0",data:ti.encodeFunctionData("approve",[adapter(),x])
+	},{
+	to:adapter(),value:"0",data:swap
+	}]);
+	$("safeBatchStatus").textContent="✓ Safe buy batch proposed. Review and confirm it in Safe.";
+	return r;
+	}
+	async function safeBatchSell(){
+	requireSafeContext();
+	if(!safeMode)throw new Error("Open the app inside Safe for Safe transactions.");
+	const x=amount($("sellAmount").value,6),q=await contract.quoteSell(x),m=q[2];
+	$("sellMin").value=ethers.formatUnits(m,18);
+	const u=await accountAddress(),i=await tokenInfo(INRP_ADDRESS,u,adapter());
+	if(i.balance<x)throw new Error("Safe has insufficient INRP.");
+	const ti=new ethers.Interface(["function approve(address,uint256)"]);
+	const swap=contract.interface.encodeFunctionData("sellINRP",[x,m]);
+	$("safeBatchStatus").textContent="Preparing Safe batch: INRP.approve(adapter) + adapter.sellINRP…";
+	const r=await submitSafeTx("Safe sell batch",[{
+	to:INRP_ADDRESS,value:"0",data:ti.encodeFunctionData("approve",[adapter(),x])
+	},{
+	to:adapter(),value:"0",data:swap
+	}]);
+	$("safeBatchStatus").textContent="✓ Safe sell batch proposed. Review and confirm it in Safe.";
+	return r;
+	}
+	async function combinedBuy(){
+	requireSafeContext();
+	if(safeMode)return safeBatchBuy();
+	await quoteBuy();await approveToken(USDT_ADDRESS,"USDT",$("buyAmount").value,18);await adapterBuy();
+	}
+	async function combinedSell(){
+	requireSafeContext();
+	if(safeMode)return safeBatchSell();
+	await quoteSell();await approveToken(INRP_ADDRESS,"INRP",$("sellAmount").value,6);await adapterSell();
+	}
+	async function requireOwner(){
+	requireSafeContext();
+	if(!contract)throw new Error("Load the adapter first.");
+	if(window.parent!==window&&!safeMode)throw new Error("Safe context has not been verified. Reload this app from inside Safe; owner actions are blocked until Safe detection succeeds.");
+	const owner=addr(await contract.owner()),account=addr(await accountAddress());
+	if(owner.toLowerCase()!==account.toLowerCase())throw new Error("Connected wallet/Safe is not the adapter owner. Adapter owner: "+owner+". Connected account: "+account+".");
+	}
+	async function adminTx(label,fn,args){
+	requireSafeContext();
+	await requireOwner();
+	const data=contract.interface.encodeFunctionData(fn,args);
+	if(safeMode)return submitSafeTx(label,[{to:adapter(),value:"0",data}]);
+	const tx=await signer.sendTransaction({to:adapter(),value:0,data});
+	setTx(label+" submitted",tx.hash);await tx.wait();setTx(label+" confirmed",tx.hash);await refreshAdapter();await updateAdminVisibility();return tx;
+	}
+	async function updateAdminVisibility(){
+	const panel=$("adminUI"),toggle=$("toggleAdminFunctions");
+	if(!panel||!toggle)return;
+	panel.classList.add("hidden");panel.style.display="none";toggle.classList.add("hidden");toggle.style.display="none";
+	if(!contract)return;
+	try{
+	const owner=addr(await contract.owner()),account=addr(await accountAddress());
+	if(owner.toLowerCase()===account.toLowerCase()){
+	toggle.classList.remove("hidden");toggle.style.display="block";
+	}
+	}catch(e){}
+	}
+	function renderAdmin(){
+	const root=$("adminUI");if(!root)return;
+	root.innerHTML=`<div class="card">
+	<h2>Adapter Owner / Safe Admin</h2>
+	<div class="notice">These controls operate on the adapter only. The adapter's V21 pool and token addresses are fixed in the contract.</div>
+	<h3>Pause / blacklist</h3>
+	<div class="row"><div class="field"><button id="pauseBtn">Pause Adapter</button></div><div class="field"><button id="unpauseBtn">Unpause Adapter</button></div></div>
+	<div class="row"><div class="field"><input id="blacklistAddress" placeholder="User address"><button id="blacklistBtn">Blacklist</button></div><div class="field"><input id="unblacklistAddress" placeholder="User address"><button id="unblacklistBtn">Unblacklist</button></div></div>
+	<h3>Rescue</h3>
+	<div class="notice">MAX resolves to the adapter's current balance and then sends that exact amount.</div>
+	<div class="row"><div class="field"><label>BEP-20 token</label><input id="rescueToken" placeholder="0x..."></div><div class="field"><label>Amount or MAX</label><input id="rescueAmount" placeholder="100 or MAX"></div><div class="field"><label>Recipient</label><input id="rescueTo" placeholder="0x..."></div></div>
+	<button id="rescueTokenBtn">Rescue BEP-20 Token</button>
+	<div class="row"><div class="field"><label>BNB amount or MAX</label><input id="rescueBNBAmount" placeholder="0.1 or MAX"></div><div class="field"><label>Recipient</label><input id="rescueBNBTo" placeholder="0x..."></div></div>
+	<button id="rescueBNBBtn">Rescue BNB</button>
+	<h3>Ownership</h3>
+	<div class="row"><div class="field"><label>New owner</label><input id="newOwner" placeholder="0x..."></div><div class="field"><button id="transferOwnershipBtn">Transfer Ownership</button></div><div class="field"><button class="danger" id="renounceOwnershipBtn">Renounce Ownership</button></div></div>
+	<div class="small" id="adapterAdminStatus"></div>
+	</div>`;
+	$("pauseBtn").onclick=()=>adminTx("Pause adapter","pause",[]).catch(fail);
+	$("unpauseBtn").onclick=()=>adminTx("Unpause adapter","unpause",[]).catch(fail);
+	$("blacklistBtn").onclick=()=>adminTx("Blacklist","blacklist",[addr($("blacklistAddress").value)]).catch(fail);
+	$("unblacklistBtn").onclick=()=>adminTx("Unblacklist","unblacklist",[addr($("unblacklistAddress").value)]).catch(fail);
+	$("transferOwnershipBtn").onclick=()=>adminTx("Transfer ownership","transferOwnership",[addr($("newOwner").value)]).catch(fail);
+	$("renounceOwnershipBtn").onclick=()=>{if(confirm("Renounce adapter ownership permanently?"))adminTx("Renounce ownership","renounceOwnership",[]).catch(fail)};
+	$("rescueTokenBtn").onclick=async()=>{try{
+	const token=addr($("rescueToken").value),to=addr($("rescueTo").value),raw=$("rescueAmount").value.trim();
+	const t=new ethers.Contract(token,ERC20_ABI,provider),bal=await t.balanceOf(adapter());
+	const units=await t.decimals(),x=raw.toUpperCase()==="MAX"?bal:ethers.parseUnits(raw,units);
+	if(x<=0n)throw new Error("Enter a positive token amount.");
+	await adminTx("Rescue token","rescueToken",[token,x,to]);
+	}catch(e){fail(e)}};
+	$("rescueBNBBtn").onclick=async()=>{try{
+	const to=addr($("rescueBNBTo").value),raw=$("rescueBNBAmount").value.trim();
+	const bal=await provider.getBalance(adapter()),x=raw.toUpperCase()==="MAX"?bal:ethers.parseEther(raw);
+	if(x<=0n)throw new Error("Enter a positive BNB amount.");
+	await adminTx("Rescue BNB","rescueBNB",[x,to]);
+	}catch(e){fail(e)}};
+	}
+	function renderDeveloper(){
+	const panel=$("developerAdminAbiPanel");
+	if(!panel)return;
+	panel.innerHTML=`
+	<h3>Developer Admin Read / Write</h3>
+	<div class="notice">Adapter-specific interface. Read calls are available after loading the adapter. Write calls require the connected wallet/Safe to be the adapter owner. Token and BNB amounts use human-readable units.</div>
+	<h4>Read</h4>
+	<div class="row">
+	<div class="field"><label for="devReadFunction">Read function</label><select id="devReadFunction">
+	<option value="owner">Owner address</option><option value="paused">Paused status</option>
+	<option value="blacklisted">Check blacklist status</option><option value="quoteBuy">Quote Buy (USDT amount)</option>
+	<option value="quoteSell">Quote Sell (INRP amount)</option>
+	</select></div>
+	<div class="field" id="devReadArgWrap"><label for="devReadArg">Address or amount</label><input id="devReadArg" placeholder="Address or token amount"></div>
+	</div>
+	<button id="devReadRun" type="button">Read Function</button><pre id="devReadResult">Choose a read function and select Read Function.</pre>
+	<hr>
+	<h4>Write (owner only)</h4>
+	<div class="row"><div class="field"><label for="devWriteFunction">Write function</label><select id="devWriteFunction">
+	<option value="pause">Pause adapter</option><option value="unpause">Unpause adapter</option>
+	<option value="blacklist">Blacklist address</option><option value="unblacklist">Unblacklist address</option>
+	<option value="transferOwnership">Transfer ownership</option><option value="renounceOwnership">Renounce ownership</option>
+	<option value="rescueToken">Rescue BEP-20 token</option><option value="rescueBNB">Rescue BNB</option>
+	</select></div></div>
+	<div id="devWriteFields"></div>
+	<button class="primary" id="devWriteRun" type="button">Execute / Propose Write</button>
+	<pre id="devWriteResult">Write calls require the connected account to be the adapter owner.</pre>`;
+	
+	const readFn=$("devReadFunction"), readArgWrap=$("devReadArgWrap"), readArg=$("devReadArg");
+	function updateReadFields(){
+	const fn=readFn.value;
+	readArgWrap.style.display=['blacklisted','quoteBuy','quoteSell'].includes(fn)?'block':'none';
+	const label=readArgWrap.querySelector('label');
+	if(fn==='blacklisted'){label.textContent='Address';readArg.placeholder='0x...';}
+	else if(fn==='quoteBuy'){label.textContent='USDT amount';readArg.placeholder='100';}
+	else if(fn==='quoteSell'){label.textContent='INRP amount';readArg.placeholder='9900';}
+	}
+	readFn.onchange=updateReadFields;updateReadFields();
+	$("devReadRun").onclick=async()=>{
+	const out=$("devReadResult");
+	try{
+	if(!contract)await loadAdapter();
+	const fn=readFn.value;let result;
+	if(fn==='owner')result=await contract.owner();
+	else if(fn==='paused')result=String(await contract.paused());
+	else if(fn==='blacklisted')result=String(await contract.blacklisted(addr(readArg.value)));
+	else if(fn==='quoteBuy'){
+	const amount=ethers.parseUnits(readArg.value.trim(),18),r=await contract.quoteBuy(amount);
+	result=JSON.stringify({usdtInput:readArg.value,usdtFee:ethers.formatUnits(r[0],18),inrpOut:ethers.formatUnits(r[1],6)},null,2);
+	} else if(fn==='quoteSell'){
+	const amount=ethers.parseUnits(readArg.value.trim(),6),r=await contract.quoteSell(amount);
+	result=JSON.stringify({inrpInput:readArg.value,usdtGross:ethers.formatUnits(r[0],18),usdtFee:ethers.formatUnits(r[1],18),usdtOut:ethers.formatUnits(r[2],18)},null,2);
+	}
+	out.textContent=typeof result==='string'?result:JSON.stringify(result,null,2);
+	}catch(e){out.textContent=msg(e);}
+	};
+	
+	const wf=$("devWriteFunction"), fields=$("devWriteFields"), writeOut=$("devWriteResult");
+	function updateWriteFields(){
+	const fn=wf.value;
+	const field=(id,label,placeholder,type='text')=>`<div class="field"><label for="${id}">${label}</label><input id="${id}" type="${type}" placeholder="${placeholder}"></div>`;
+	if(['pause','unpause','renounceOwnership'].includes(fn))fields.innerHTML='<div class="small">No arguments required.</div>';
+	else if(['blacklist','unblacklist'].includes(fn))fields.innerHTML=field('devWriteAddress','User address','0x...');
+	else if(fn==='transferOwnership')fields.innerHTML=field('devWriteAddress','New owner address','0x...');
+	else if(fn==='rescueToken')fields.innerHTML=`<div class="row">${field('devTokenAddress','Token address','0x...')}${field('devTokenAmount','Amount or MAX','100 or MAX')}${field('devRecipient','Recipient','0x...')}</div>`;
+	else if(fn==='rescueBNB')fields.innerHTML=`<div class="row">${field('devBNBAmount','BNB amount or MAX','0.1 or MAX')}${field('devBNBRecipient','Recipient','0x...')}</div>`;
+	}
+	wf.onchange=updateWriteFields;updateWriteFields();
+	$("devWriteRun").onclick=async()=>{
+	try{
+	if(!contract)await loadAdapter();
+	const fn=wf.value;
+	writeOut.textContent='Preparing transaction…';
+	if(fn==='pause'||fn==='unpause')await adminTx(fn==='pause'?'Pause adapter':'Unpause adapter',fn,[]);
+	else if(fn==='blacklist'||fn==='unblacklist')await adminTx(fn==='blacklist'?'Blacklist address':'Unblacklist address',fn,[addr($("devWriteAddress").value)]);
+	else if(fn==='transferOwnership')await adminTx('Transfer ownership','transferOwnership',[addr($("devWriteAddress").value)]);
+	else if(fn==='renounceOwnership'){
+	if(!confirm('Renounce adapter ownership permanently? This cannot be undone.'))return;
+	await adminTx('Renounce ownership','renounceOwnership',[]);
+	} else if(fn==='rescueToken'){
+	const token=addr($("devTokenAddress").value),to=addr($("devRecipient").value),raw=$("devTokenAmount").value.trim();
+	if(!raw)throw new Error('Enter a token amount or MAX.');
+	const t=new ethers.Contract(token,ERC20_ABI,provider),bal=await t.balanceOf(adapter()),dec=Number(await t.decimals());
+	const amount=raw.toUpperCase()==='MAX'?bal:ethers.parseUnits(raw,dec);
+	if(amount<=0n)throw new Error('Amount must be greater than zero.');
+	await adminTx('Rescue token','rescueToken',[token,amount,to]);
+	} else if(fn==='rescueBNB'){
+	const to=addr($("devBNBRecipient").value),raw=$("devBNBAmount").value.trim();
+	if(!raw)throw new Error('Enter a BNB amount or MAX.');
+	const bal=await provider.getBalance(adapter()),amount=raw.toUpperCase()==='MAX'?bal:ethers.parseEther(raw);
+	if(amount<=0n)throw new Error('Amount must be greater than zero.');
+	await adminTx('Rescue BNB','rescueBNB',[amount,to]);
+	}
+	writeOut.textContent=safeMode?'Transaction proposal sent to Safe. Review the proposal in Safe.':'Transaction submitted successfully.';
+	}catch(e){writeOut.textContent=msg(e);fail(e);}
+	};
+	}
+	
+	async function disconnect(){
+	requireSafeContext();
+	throw new Error("Safe controls the connection. Close the Custom App to leave Safe mode.");
+	try{await rawProvider?.disconnect?.()}catch(e){}
+	provider=null;signer=null;rawProvider=null;contract=null;
+	$("wallet").textContent="Not connected";$("walletMode").textContent="";$("network").textContent="";$("poolStatus").textContent="";
+	$("stats").innerHTML="";$("safeStatus").textContent="";
+	}
+	function wire(){
+	renderAdmin();renderDeveloper();
+	$("safeCustomAppPanel").innerHTML='<strong>Safe Adapter App</strong><div style="margin-top:6px">Safe mode uses the Safe itself as the account. Swap batches are exactly two calls: token approval to the adapter, then adapter swap.</div>';
+	if($("safeBatchActions")) $("safeBatchActions").style.display="none";
+	$("toggleAdminFunctions").textContent="Show Adapter Admin Functions";
+	$("toggleAdminFunctions").onclick=()=>{const p=$("adminUI"),open=p.style.display!=="none";p.classList.toggle("hidden",open);p.style.display=open?"none":"block"};
+	$("connectInjected").onclick=()=>connectInjected().catch(e=>{setTx("Wallet connection failed: "+msg(e));fail(e)});
+	$("connectWC").onclick=()=>connectWalletConnect().catch(e=>{setTx("WalletConnect failed: "+msg(e));fail(e)});
+	$("switchBsc").onclick=()=>switchMainnet().catch(fail);
+	$("switchBscWrongNetwork").onclick=()=>switchMainnet().catch(fail);
+	$("disconnect").onclick=()=>disconnect().catch(fail);
+	$("safeDisconnect").onclick=()=>{};
+	$("safeDisconnect").disabled=true;
+	$("loadPool").textContent="Load Adapter";$("loadPool").onclick=()=>loadAdapter().catch(fail);
+	$("quoteBuy").onclick=()=>quoteBuy().catch(fail);$("quoteSell").onclick=()=>quoteSell().catch(fail);
+	$("approveUSDT").onclick=()=>approveToken(USDT_ADDRESS,"USDT",$("buyAmount").value,18).catch(fail);
+	$("approveINRP").onclick=()=>approveToken(INRP_ADDRESS,"INRP",$("sellAmount").value,6).catch(fail);
+	$("buy").onclick=()=>adapterBuy().catch(fail);$("sell").onclick=()=>adapterSell().catch(fail);
+	if($("safeBuyBatch"))$("safeBuyBatch").onclick=()=>safeBatchBuy().catch(fail);if($("safeSellBatch"))$("safeSellBatch").onclick=()=>safeBatchSell().catch(fail);
+	$("combinedBuyBtn").onclick=()=>combinedBuy().catch(fail);$("combinedSellBtn").onclick=()=>combinedSell().catch(fail);
+	$("buyAmount").addEventListener("input",()=>preflight().catch(()=>{}));$("sellAmount").addEventListener("input",()=>preflight().catch(()=>{}));
+	$("toggleDeveloperMode").onclick=()=>{const p=$("developerModePanel");if(!p)return;const open=p.style.display!=="none"&&!p.classList.contains("hidden");p.classList.toggle("hidden",open);p.style.display=open?"none":"block";$("toggleDeveloperMode").textContent=open?"Show Developer Mode":"Hide Developer Mode";};
+	const devAbiToggle=$("toggleDeveloperAdminAbi");
+	devAbiToggle.textContent="Show Developer Admin Read / Write";
+	devAbiToggle.onclick=()=>{
+	const p=$("developerAdminAbiPanel"),outer=$("developerModePanel");if(!p||!outer)return;
+	const open=!p.classList.contains("hidden")&&p.style.display!=="none";
+	if(!open){outer.classList.remove("hidden");outer.style.display="block";}
+	p.classList.toggle("hidden",open);p.style.display=open?"none":"block";
+	devAbiToggle.textContent=open?"Show Developer Admin Read / Write":"Hide Developer Admin Read / Write";
+	};
+	$("developerRefresh").onclick=async()=>{try{if(!contract)await loadAdapter();const [owner,paused]=await Promise.all([contract.owner(),contract.paused()]);$("developerResult").textContent=JSON.stringify({adapter:adapter(),underlyingV21Pool:V21_POOL,USDT:USDT_ADDRESS,INRP:INRP_ADDRESS,owner,paused,safeMode,account:await accountAddress()},null,2);}catch(e){$("developerResult").textContent=msg(e);}};
+	}
+	async function start(){
+	wire();
+	$("poolAddress").value=ADAPTER_ADDRESS;$("poolAddress").readOnly=true;
+	const inSafe=await detectSafe();
+	if(inSafe){ $("wallet").textContent="Safe account: "+short(safeInfo.safeAddress); $("walletMode").textContent="Connection: Safe Custom App — Adapter mode"; await loadAdapter(); return; }
+	$("wallet").textContent="Not connected";
+	}
+	setWalletButtonsDisabled(true,"Safe-only mode: wallet connection is managed by the verified Safe context.");
+	if(window.parent!==window){
+		document.body.classList.add("safe-context-pending");
+		setWalletButtonsDisabled(true,"Checking Safe connection. Standalone wallet connections are disabled in Safe-only mode.");
+		if($("walletMode"))$("walletMode").textContent="Connection: Initializing Safe Custom App…";
+		if($("safeStatus"))$("safeStatus").textContent="Verifying Safe context. Wallet actions remain disabled until verification succeeds.";
+	}
+	if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>start().catch(e=>{if($("safeStatus")&&window.parent!==window)$("safeStatus").textContent="Safe initialization failed: "+msg(e);fail(e)}));else start().catch(e=>{if($("safeStatus")&&window.parent!==window)$("safeStatus").textContent="Safe initialization failed: "+msg(e);fail(e)});
+	})();
+	</script>
+	
+	</body>
+	
+	
+	
+	</html>
+
