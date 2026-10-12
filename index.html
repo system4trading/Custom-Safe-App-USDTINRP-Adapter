@@ -1,3 +1,4 @@
+
 	
 	
 	<!DOCTYPE html>
@@ -1818,44 +1819,61 @@
 	else {el.removeAttribute("title");}
 	});
 	}
+	function safeSdkClass(mod){return mod?.default||mod?.SafeAppsSDK||mod}
 	async function detectSafe(){
-	safeMode=false; safeSdk=null; safeInfo=null;
-	const embeddedAtStart = window.parent !== window;
-	if(embeddedAtStart) setWalletButtonsDisabled(true, "Checking Safe connection…");
-	try{
-	const mod=await import("https://esm.sh/@safe-global/safe-apps-sdk@9.1.0");
-	const SDK=mod.default||mod;
-	const sdk=new SDK({allowedDomains:[/^app\.safe\.global$/]});
-	const info=await sdk.safe.getInfo();
-	if(info?.safeAddress){
-	if(!isMainnet(info.chainId)) throw new Error("Safe is not on BNB Smart Chain mainnet.");
-	safeSdk=sdk; safeInfo=info; safeMode=true;
-	provider=new ethers.JsonRpcProvider(RPC);
-	$("safeAddressDisplay").textContent=addr(info.safeAddress);
-	$("safeNetworkDisplay").textContent="BNB Smart Chain (chain 56)";
-	$("safeStatus").textContent="✓ Safe Custom App context detected.";
-	$("normalConnectionActions").classList.remove("safe-hidden-wallet");
-	setWalletButtonsDisabled(true, "Safe controls this connection while the app is open inside Safe.");
-	$("safeDisconnect").disabled=true;
-	$("safeConnectionPanel").style.display="flex";
-	$("safeCustomAppPanel").style.display="block";
-	return true;
+		safeMode=false; safeSdk=null; safeInfo=null;
+		const embeddedAtStart = window.parent !== window;
+		if(embeddedAtStart) setWalletButtonsDisabled(true, "Checking Safe connection…");
+		if(!embeddedAtStart){
+			setWalletButtonsDisabled(true, "Safe-only mode: open this app inside Safe.");
+			$("safeStatus").textContent="Safe-only app: open this Custom App from inside your Safe. Standalone wallet connections are disabled.";
+			$("safeCustomAppPanel").style.display="block";
+			$("safeCustomAppPanel").innerHTML='<strong>Safe-only mode</strong><div style="margin-top:6px">Open this app from inside a verified Safe Custom App on BNB Smart Chain Mainnet. Standalone browser-wallet and WalletConnect connections are disabled.</div>';
+			if($("wallet"))$("wallet").textContent="Safe not verified";
+			if($("walletMode"))$("walletMode").textContent="Connection: Open inside Safe";
+			return false;
+		}
+		try{
+			let SDK=window.SafeAppsSDK?.default||window.SafeAppsSDK||window.safeAppsSDK?.default||window.safeAppsSDK;
+			if(!SDK){
+				const mod=await import("https://esm.sh/@safe-global/safe-apps-sdk@9.0.0");
+				SDK=safeSdkClass(mod);
+			}
+			if(typeof SDK!=="function")throw Error("Safe Apps SDK constructor was not available. Check that the Safe Apps SDK script loaded.");
+			const sdk=new SDK();
+			const info=await Promise.race([
+				sdk.safe.getInfo(),
+				new Promise((_,reject)=>setTimeout(()=>reject(Error("Timed out waiting for the Safe Apps SDK handshake. Reopen the app from inside Safe and verify the hosted URL.")),12000))
+			]);
+			if(!info?.safeAddress)throw Error("Safe context was not returned by the Safe Apps SDK.");
+			if(!isMainnet(info.chainId))throw Error("Safe is not on BNB Smart Chain Mainnet (chain 56).");
+			safeSdk=sdk; safeInfo=info; safeMode=true;
+			provider=new ethers.JsonRpcProvider(RPC);
+			$("safeAddressDisplay").textContent=addr(info.safeAddress);
+			$("safeNetworkDisplay").textContent="BNB Smart Chain (chain 56)";
+			$("safeStatus").textContent="✓ Safe Custom App context detected.";
+			$("normalConnectionActions").classList.remove("safe-hidden-wallet");
+			setWalletButtonsDisabled(true, "Safe controls this connection while the app is open inside Safe.");
+			if($("safeDisconnect"))$("safeDisconnect").disabled=true;
+			$("safeConnectionPanel").style.display="flex";
+			$("safeCustomAppPanel").style.display="block";
+			return true;
+		}catch(e){
+			console.warn("Safe detection:",e);
+			safeSdk=null; safeInfo=null; safeMode=false;
+			$("safeStatus").textContent="Safe iframe detected, but the Safe Apps SDK handshake failed. All wallet and transaction actions remain disabled. Reload this Custom App from inside Safe and verify SDK access.";
+			$("safeConnectionPanel").style.display="none";
+			$("safeCustomAppPanel").style.display="block";
+			$("safeCustomAppPanel").innerHTML='<strong>Safe-only mode</strong><div style="margin-top:6px">Safe context could not be verified. Reload this Custom App from inside Safe. Standalone wallet connections and transaction actions remain disabled.</div>';
+			$("normalConnectionActions").classList.remove("safe-hidden-wallet");
+			setWalletButtonsDisabled(true, "Safe context was not verified; wallet connections are disabled.");
+			if($("safeDisconnect"))$("safeDisconnect").disabled=true;
+			if($("wallet"))$("wallet").textContent="Safe not verified";
+			if($("walletMode"))$("walletMode").textContent="Connection: Safe-only — verification required";
+			return false;
+		}
 	}
-	}catch(e){console.debug("Not running in an accepted Safe Custom App context:",e)}
-	const embedded = window.parent !== window;
-	$("safeStatus").textContent = embedded
-	? "Safe iframe detected, but the Safe context could not be verified. All wallet and transaction actions remain disabled. Reload this Custom App from inside Safe and verify the Safe Apps SDK handshake."
-	: "Safe-only app: standalone browser use is disabled. Open this app from inside your Safe Custom App on BNB Smart Chain Mainnet.";
-	$("safeConnectionPanel").style.display="none";
-	$("safeCustomAppPanel").style.display="block";
-	$("safeCustomAppPanel").innerHTML='<strong>Safe-only mode</strong><div style="margin-top:6px">This app can only be used from inside a verified Safe Custom App on BNB Smart Chain Mainnet. Standalone browser-wallet and WalletConnect connections are disabled.</div>';
-	$("normalConnectionActions").classList.remove("safe-hidden-wallet");
-	setWalletButtonsDisabled(true, embedded ? "Safe context was not verified; wallet connections are disabled." : "Safe-only mode: open this app inside Safe.");
-	if($("safeDisconnect"))$("safeDisconnect").disabled=true;
-	if($("wallet"))$("wallet").textContent="Safe not verified";
-	if($("walletMode"))$("walletMode").textContent="Connection: Safe-only — open inside Safe";
-	return false;
-	}
+
 	
 	async function ensureMainnetInjected(){
 	if(!window.ethereum)throw new Error("No injected wallet found.");
